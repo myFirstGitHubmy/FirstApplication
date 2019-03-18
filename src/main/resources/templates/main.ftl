@@ -4,6 +4,7 @@
 <@c.page>
 <div>
     <@l.logout />
+    <span><a href="/user">User list</a></span>
 </div>
 <!--Эту форму пользвательзователь видит только после авторизации-->
 <div>
@@ -16,7 +17,7 @@
 </div>
     <div>Список сообщений</div>
 <form method="get" action="/main">
-    <input type="text" name="filter" value="${filter}">
+    <input type="text" name="filter" >
     <button type="submit">Найти</button>
 </form>
     <#list messages as message>
@@ -26,7 +27,7 @@
             <i>${message.tag}</i>
             <strong>${message.authorName}</strong>
         </div>
-        <#else>
-        No messages
+        <#--<#else>-->
+        <#--No messages-->
     </#list>
 </@c.page>

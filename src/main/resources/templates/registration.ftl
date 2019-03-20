@@ -5,6 +5,6 @@ Add new user
 <!--{{#message}} &lt;!&ndash; Если присутствует поле, то показать его    (mustache)&ndash;&gt;-->
     <!--{{message}}-->
 <!--{{/message}}-->
-<#--${message}-->
+${message?ifExists}
 <@l.login "/registration" />
 </@c.page>

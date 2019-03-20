@@ -19,42 +19,42 @@ import java.util.stream.Collectors;
 @RequestMapping("/user") //не подписывать в свой пути "/user"
 @PreAuthorize("hasAuthority('ADMIN')")
 public class UserController {
-@Autowired
+    @Autowired
     private UserRepo userRepo;
 
- @GetMapping
+    @GetMapping
     public String userList(Model model){
-     model.addAttribute("users", userRepo.findAll());
+        model.addAttribute("users", userRepo.findAll());
         return "userList";
- }
+    }
 
- @GetMapping("{user}")
+    @GetMapping("{user}")
     public String userEditForm(@PathVariable User user, Model model){
-     model.addAttribute("user", user);
-     model.addAttribute("roles", Role.values());
-     return "userEdit";
- }
+        model.addAttribute("user", user);
+        model.addAttribute("roles", Role.values());
+        return "userEdit";
+    }
 
- @PostMapping
+    @PostMapping
     public  String userSave(
             @RequestParam String username,
             @RequestParam Map<String, String> form,
             @RequestParam("userId") User user){   //по "userId" будем получать пользователя из базы данныъ
-user.setUsername(username);
+        user.setUsername(username);
 
-Set<String> roles = Arrays.stream(Role.values())
-            .map(Role::name)
-            .collect(Collectors.toSet());
+        final Set<String> roles = Arrays.stream(Role.values())
+                .map(Role::name)
+                .collect(Collectors.toSet());
 
-user.getRoles().clear();
+        user.getRoles().clear();
 
-for(String key : form.keySet()){
-    if (roles.contains(key)){
-        user.getRoles().add(Role.valueOf(key));
+        for(String key : form.keySet()){
+            if (roles.contains(key)){
+                user.getRoles().add(Role.valueOf(key));
+            }
+        }
+
+        userRepo.save(user);
+        return "redirect:/user";
     }
-     }
-
-userRepo.save(user);
-     return "redirect:/user";
- }
 }
